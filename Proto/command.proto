@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+option cc_enable_arenas = true;
+
+message RouteMsg {
+	enum Type {
+		REGISTER = 0;
+		FRAME = 1;
+		REGISTER_RESPONSE = 2;
+		CLIENT_FRAME = 3;
+		SERVER_FRAME = 4;
+		CLIENT_POSITION_SYNC = 5;
+		PLAYER_ENTER = 6;
+	}
+	Type type = 1;
+	bytes msg = 2; 
+}
+
+message RegisterMsg {
+	string title = 1;
+}
+
+message RegisterResponse {
+	bool result = 1;
+	int32 id = 2;
+	int32 port = 3;
+	uint32 serverFrame = 4;
+	repeated PlayerInfo playerList = 5;
+	string reason = 6;
+}
+
+message ClientFrame {
+    int32 clientId = 1;
+    CameraAxisInput input = 3;
+}
+
+message ServerFrame {
+    uint32 frameId = 1;
+    repeated ClientFrame clientInputs = 2;
+}
+
+message ClientPositionSync {
+	int32 clientId = 1;
+	PositionData position = 2;
+}
+
+message ServerFramePackage {
+	ServerFrame current = 1;
+	ServerFrame cache1 = 2;
+	ServerFrame cache2 = 3;
+}
+
+message CameraAxisInput {
+	float moveRight = 1;
+	float moveForward = 2;
+	float cameraYaw = 3;
+	bool jump = 4;
+}
+
+message PositionData {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}
+
+message PlayerInfo {
+	int32 id = 1;
+	string title = 2;
+}

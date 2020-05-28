@@ -1,0 +1,1 @@
+protoc.exe -I=./ --csharp_out=./ ./command.proto
